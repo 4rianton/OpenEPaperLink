@@ -870,6 +870,7 @@ document.addEventListener("loadTab", function (event) {
 						$('#apcfgble').value = data.ble;
 						$("#apcfgledbrightness").value = data.led;
 						$("#apcfgtftbrightness").value = data.tft;
+						$("#apcfgtftmode").value = ('tftmode' in data) ? data.tftmode : 1;
 						$("#apcfglanguage").value = data.language;
 						$("#apclatency").value = data.maxsleep;
 						$("#apcpreventsleep").value = data.stopsleep;
@@ -909,6 +910,7 @@ $('#apcfgsave').onclick = function () {
 	formData.append('ble', $('#apcfgble').value);
 	formData.append('led', $('#apcfgledbrightness').value);
 	formData.append('tft', $('#apcfgtftbrightness').value);
+	formData.append('tftmode', $('#apcfgtftmode').value);
 	formData.append('language', $('#apcfglanguage').value);
 	formData.append('maxsleep', $('#apclatency').value);
 	formData.append('stopsleep', $('#apcpreventsleep').value);
