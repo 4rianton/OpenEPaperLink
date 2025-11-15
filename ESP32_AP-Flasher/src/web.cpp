@@ -596,6 +596,10 @@ void init_web() {
             config.tft = static_cast<uint8_t>(request->getParam("tft", true)->value().toInt());
             updateBrightnessFromConfig();
         }
+        if (request->hasParam("tftmode", true)) {
+            config.tftMode = static_cast<uint8_t>(request->getParam("tftmode", true)->value().toInt());
+            updateBrightnessFromConfig();
+        }
         if (request->hasParam("language", true)) {
             config.language = static_cast<uint8_t>(request->getParam("language", true)->value().toInt());
             updateLanguageFromConfig();

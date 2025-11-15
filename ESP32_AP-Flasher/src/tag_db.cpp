@@ -325,6 +325,7 @@ void initAPconfig() {
     if (APconfig["alias"]) strlcpy(config.alias, APconfig["alias"], sizeof(config.alias));
     config.led = APconfig["led"].is<uint8_t>() ? APconfig["led"] : 255;
     config.tft = APconfig["tft"].is<uint8_t>() ? APconfig["tft"] : 255;
+    config.tftMode = APconfig["tftmode"].is<uint8_t>() ? APconfig["tftmode"] : 1;
     config.language = APconfig["language"].is<uint8_t>() ? APconfig["language"] : 0;
     config.maxsleep = APconfig["maxsleep"].is<uint8_t>() ? APconfig["maxsleep"] : 10;
     config.stopsleep = APconfig["stopsleep"].is<uint8_t>() ? APconfig["stopsleep"] : 1;
@@ -360,6 +361,7 @@ void saveAPconfig() {
     APconfig["alias"] = config.alias;
     APconfig["led"] = config.led;
     APconfig["tft"] = config.tft;
+    APconfig["tftmode"] = config.tftMode;
     APconfig["language"] = config.language;
     APconfig["maxsleep"] = config.maxsleep;
     APconfig["stopsleep"] = config.stopsleep;
