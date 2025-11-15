@@ -24,6 +24,10 @@ uint8_t YellowSense = 0;
 bool tftLogscreen = true;
 bool tftOverride = false;
 
+static inline bool tftScreenEnabled() {
+    return config.tftMode != 0;
+}
+
 #if defined HAS_LILYGO_TPANEL || defined HAS_4inch_TPANEL
 
 #if defined HAS_LILYGO_TPANEL
@@ -337,6 +341,7 @@ void touch_loop()
 #endif
 
 void TFTLog(String text) {
+    if (!tftScreenEnabled()) return;
 #if defined HAS_LILYGO_TPANEL || defined HAS_4inch_TPANEL
 
     gfx->setTextSize(2);
@@ -430,10 +435,10 @@ void yellow_ap_display_init(void) {
 #if ESP_ARDUINO_VERSION_MAJOR == 2
     ledcAttachPin(LCD_BL, 1);
     ledcSetup(1, 1000, 8);
-    ledcWrite(1, config.tft);  // brightness
+    ledcWrite(1, tftScreenEnabled() ? config.tft : 0);  // brightness
 #else
     ledcAttachChannel(LCD_BL, 1000, 8, 1);
-    ledcWriteChannel(1, config.tft);
+    ledcWriteChannel(1, tftScreenEnabled() ? config.tft : 0);
 #endif
 
 #if defined HAS_LILYGO_TPANEL
@@ -468,13 +473,13 @@ void yellow_ap_display_init(void) {
 #if ESP_ARDUINO_VERSION_MAJOR == 2
     ledcSetup(1, 5000, 8);
     ledcAttachPin(TFT_BACKLIGHT, 1);
-    ledcWrite(1, config.tft);
+    ledcWrite(1, tftScreenEnabled() ? config.tft : 0);
     if (tft2.width() == 160) {
         GPIO.func_out_sel_cfg[TFT_BACKLIGHT].inv_sel = 1;
     }
 #else
     ledcAttachChannel(TFT_BACKLIGHT, 5000, 8, 1);
-    ledcWriteChannel(1, config.tft);
+    ledcWriteChannel(1, tftScreenEnabled() ? config.tft : 0);
     if (tft2.width() == 160) ledcOutputInvert(TFT_BACKLIGHT, true);
 #endif
 #endif
@@ -485,6 +490,11 @@ void yellow_ap_display_loop(void) {
     static bool first_run = 0;
     static time_t last_checkin = 0;
     static time_t last_update = 0;
+
+    if (!tftScreenEnabled()) {
+        touch_loop();
+        return;
+    }
 
     if (millis() - last_checkin >= 60000) {
         sendAvail(0);

@@ -60,6 +60,7 @@ struct Config {
     char alias[32];
     uint8_t led;
     uint8_t tft;
+    uint8_t tftMode;
     uint8_t language;
     uint8_t maxsleep;
     uint8_t stopsleep;
